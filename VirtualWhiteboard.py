@@ -35,4 +35,14 @@ while True:
     # find hand landmarks
     img = detector.findHands(img)
     lmList = detector.findPosition(img, draw=False)
+    if len(lmList) != 0:
+        # print(lmList)
+        # tip of index and middle fingers
+        x1, y1 = lmList[8][1:]
+        x2, y2 = lmList[12][1:]
+        # check when fingers up
+
+        fingers = detector.fingersUp()
+
+
 
