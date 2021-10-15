@@ -43,6 +43,53 @@ while True:
         # check when fingers up
 
         fingers = detector.fingersUp()
+        # selection mode - two fingers up
+        condition = fingers[1] and fingers[2]
+        if condition:
+            xp, yp = 0, 0
+            print("Selection time")
+            # waiting for the click
+            if y1 < 115:
+                if 250 < x1 < 450:
+                    header = overlayList[0]
+                    drawColor = (0, 0, 255)
+                elif 550 < x1 < 750:
+                    header = overlayList[1]
+                    drawColor = (255, 0, 0)
+                elif 800 < x1 < 950:
+                    header = overlayList[2]
+                    drawColor = (0, 255, 0)
+                elif 1050 < x1 < 1200:
+                    header = overlayList[3]
+                    drawColor = (0, 0, 0)
+            cv2.rectangle(img, (x1, y1 - 25), (x2, y2 + 25), drawColor, cv2.FILLED)
+
+        # draw mode - index finger up
+        if not condition:
+            cv2.circle(img, (x1, y1), 15, drawColor, cv2.FILLED)
+            print("Drawing time")
+            if xp == 0 and yp == 0:
+                xp, yp = x1, y1
+
+            # cv2.line(img, (xp,xp), (x1,y1), drawColor, brushThickness)
+            if drawColor == (255, 255, 255):
+                cv2.line(img, (xp, yp), (x1, y1), drawColor, eraserThickness)
+                cv2.line(imgCanvas, (xp, yp), (x1, y1), drawColor, eraserThickness)
+
+            else:
+                cv2.line(img, (xp, yp), (x1, y1), drawColor, brushThickness)
+                cv2.line(imgCanvas, (xp, yp), (x1, y1), drawColor, brushThickness)
+            xp, yp = x1, y1
+
+    imgGray = cv2.cvtColor(imgCanvas, cv2.COLOR_BGR2GRAY)
+    _, imgInv = cv2.threshold(imgGray, 50, 255, cv2.THRESH_BINARY_INV)
+    imgInv = cv2.cvtColor(imgInv, cv2.COLOR_GRAY2BGR)
+    img = cv2.bitwise_and(img, imgInv)
+    img = cv2.bitwise_or(img, imgCanvas)
 
 
-
+    img[0:100, 0:1280] = header  # setting in our header image
+    # img = cv2.addWeighted(img, 0.5, imgCanvas, 0.5, 0)
+    cv2.imshow("Image", img)
+    # cv2.imshow("Canvas", imgCanvas)
+    cv2.waitKey(1)
