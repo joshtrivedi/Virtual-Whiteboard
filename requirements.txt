@@ -1,0 +1,7 @@
+python-3.9.5
+opencv-python
+mediapipe
+math
+numpy
+time
+os
