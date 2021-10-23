@@ -50,18 +50,20 @@ while True:
             print("Selection time")
             # waiting for the click
             if y1 < 115:
-                if 250 < x1 < 450:
+                if 250 < x1 < 400:
                     header = overlayList[0]
                     drawColor = (0, 0, 255)
-                elif 550 < x1 < 750:
+                elif 470 < x1 < 640:
                     header = overlayList[1]
                     drawColor = (255, 0, 0)
-                elif 800 < x1 < 950:
+                elif 690 < x1 < 845:
                     header = overlayList[2]
                     drawColor = (0, 255, 0)
-                elif 1050 < x1 < 1200:
+                elif 880 < x1 < 1050:
                     header = overlayList[3]
                     drawColor = (0, 0, 0)
+                elif 1080 < x1 < 1280:
+                    imgCanvas.fill(0)
             cv2.rectangle(img, (x1, y1 - 25), (x2, y2 + 25), drawColor, cv2.FILLED)
 
         # draw mode - index finger up
